@@ -21,9 +21,7 @@ The **Nord Pool** {% term integration %} integrates [Nord Pool Group](https://ww
 
 The {% term integration %} provides the public market prices displayed on the [Nord Pool Auction page](https://data.nordpoolgroup.com/auction/day-ahead/prices).
 
-Most of the European energy is traded via the Nord Pool Group marketplace so therefore in most cases, if the energy provided you currently have doesn't have an {% term integration %} in Home Assistant and you have a spot price based contract, you can use the**Nord Pool** {% term integration %} to calculate your energy price to use in a {% term template %} or as a price the energy dashboard
-
-If there is not an {% term integration %} for your energy provider available in Home Assistant, but have an energy price based on spot prices. This integration will add the spot prices for the selected market, for which you can, as example, use in a {% term template %} to calculate and use as a current price in your [energy dashboard](#energy-dashboard).
+Most European energy is traded via the Nord Pool Group marketplace. If your energy provider doesn't have a dedicated Home Assistant integration and you have a spot-price-based contract, you can use the **Nord Pool** {% term integration %}. This integration provides spot prices for your selected market, which you can, as example, use in a {% term template %} to calculate prices for your [energy dashboard](#energy-dashboard).
 
 {% include integrations/config_flow.md %}
 
