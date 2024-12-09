@@ -44,6 +44,7 @@ All prices are displayed as `[Currency]/kWh`.
 ## Data fetching and limitations
 
 Data is polled from the Nord Pool API on an hourly basis, exactly on the hour to always ensure the price sensors are displaying the correct price.
+In the case a polling can not happen, because there is no connectivity or a malfunctioning API, there is no retry and the next periodic update will try again.
 
 ## Sensors
 
