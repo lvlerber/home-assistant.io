@@ -21,14 +21,13 @@ The **Nord Pool** {% term integration %} integrates [Nord Pool Group](https://ww
 
 The {% term integration %} provides the public market prices displayed on the [Nord Pool Auction page](https://data.nordpoolgroup.com/auction/day-ahead/prices).
 
+Most of the European energy is traded via the Nord Pool Group marketplace so therefore in most cases, if the energy provided you currently have doesn't have an {% term integration %} in Home Assistant and you have a spot price based contract, you can use the**Nord Pool** {% term integration %} to calculate your energy price to use in a {% term template %} or as a price the energy dashboard
+
+If there is not an {% term integration %} for your energy provider available in Home Assistant, but have an energy price based on spot prices. This integration will add the spot prices for the selected market, for which you can, as example, use in a {% term template %} to calculate and use as a current price in your [energy dashboard](#energy-dashboard).
+
 {% include integrations/config_flow.md %}
 
-{% tip %}
-Only a single configuration entry is supported. Use the reconfigure option from the configuration entry if needed to modify the settings.
-
-EUR is the base currency for market prices. If you choose another currency, you can find the conversion rate in the `Exchange rate` sensor.
-All prices are displayed as `selected_currency/kWh`.
-{% endtip %}
+## Configuration fields
 
 {% configuration_basic %}
 Areas:
@@ -37,9 +36,20 @@ Currency:
   description: Currency to display prices in. EUR is the base currency in Nord Pool prices.
 {% endconfiguration_basic %}
 
+{% tip %}
+Only a single configuration entry is supported. Use the reconfigure option from the configuration entry if needed to modify the settings.
+
+EUR is the base currency for market prices. If you choose another currency, you can find the conversion rate in the `Exchange rate` sensor.
+All prices are displayed as `[Currency]/kWh`.
+{% endtip %}
+
+## Data fetching and limitations
+
+Data is polled from the Nord Pool API on an hourly basis, exactly on the hour to always ensure the price sensors are displaying the correct price.
+
 ## Sensors
 
-The integration will create entities showing today's energy prices for the configured market area. Only the base energy price is shown. VAT and other additional costs are not included. 
+The integration will create entities showing today's energy prices for the configured market area. Only the base energy price is shown. VAT and other additional costs are not included.
 
 ### Main sensors
 
@@ -82,11 +92,12 @@ The block price sensors are not enabled by default.
 
 ## Examples
 
-A template sensor to add VAT and fixed cost is useful to get the actual energy cost in the energy dashboard. 
+A template sensor to add VAT and fixed cost is useful to get the actual energy cost in the energy dashboard.
 
 ### UI Template
 
 Create a helper using the UI.
+
 1. Go to {% my integrations title="**Settings** > **Devices & Services**" %} and at the top, choose the **Helpers** tab.
 2. In the bottom right corner, select **Create helper**.
 3. Select **Template** and **Template a sensor**.
@@ -128,3 +139,7 @@ To use the Nordpool integration in the **Energy** dashboard, when configuring gr
 <p class='img'>
   <img src='/images/integrations/nordpool/nordpool_energy_dashboard.png' alt='Screenshot: Create template sensor'>
 </p>
+
+## Remove the integration
+
+{% include integrations/remove_device_service.md %}
