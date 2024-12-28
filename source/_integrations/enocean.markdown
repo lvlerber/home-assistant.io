@@ -26,7 +26,16 @@ related:
 
 The [EnOcean](https://en.wikipedia.org/wiki/EnOcean) standard is supported by many different vendors. There are switches and sensors of many different kinds, and typically they employ energy harvesting to get power such that no batteries are necessary.
 
-The EnOcean integration adds support for some of these devices. You will need a controller like the [USB300](https://www.enocean.com/product/usb-300/) in order for it to work.  Not all controllers are supported by this integration.  You can compare controllers like FAM14, FGW14, FTS14KS and USB300 at this excellent [gateway overview](https://github.com/grimmpp/home-assistant-eltako/blob/main/docs/gateways/readme.md).
+The EnOcean integration adds support for some of these devices. You will need a controller like the [USB300](https://www.enocean.com/product/usb-300/) in order for it to work. 
+
+## Unsupported controllers/gateways
+
+The following gateways are not supported by the integration:
+- All gateways that are based on the ESP2 protocol.  You can find an excellent guide to controllers and suitable integrations at this [gateway overview](https://github.com/grimmpp/home-assistant-eltako/blob/main/docs/gateways/readme.md).
+  - Eltako FAM14
+  - Eltako FGW14-USB
+  - Eltako FAM-USB
+  - Eltako FTK14TS
 
 There is currently support for the following device types within Home Assistant:
 
