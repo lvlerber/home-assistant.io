@@ -44,11 +44,26 @@ Platforms available - depending on your Smile and setup include:
  - `switch` (for Plugs connected to Adam, or Circles and Stealths connected to a Stretch)
 
 
-The password can be found on the bottom of your Smile or Stretch, the ID, it should consist of 8 characters. To find your IP address use the Plugwise App: 
+## Pre-requisites
 
- - Open the Plugwise App and choose the 'Settings'-icon (&#9776;) and choose 'HTML-interface'. 
- - Go to the (lower) 'Settings'-icon (&#9776;) and choose 'Preferences'. 
- - Choose 'System' then 'Networking' and your IP address will be shown.
+The Plugwise Smile(s) in your network will be automatically discovered and shown on the integrations dashboard. All you need is the Smile ID as its password, which is an 8-character string printed on the sticker on the bottom of your Smile. Repeat this for each individual Smile.
+
+{% include integrations/config_flow.md %}
+
+{% configuration_basic %}
+Host:
+  description: "The hostname or IP address of your Smile. For example: `192.168.1.25`. You can find it in your router or in the Plugwise app using the **Settings** icon (&#9776;) -> **System** -> **Network**. If you are looking for a different device in the Plugwise App, on the main screen first select **Gateways** -> the Smile of your choice, and then follow the previous instruction. Normally, the Smile(s) are automatically discovered, and you don't have to provide the hostname or IP address."
+Username:
+  description: "Username to log in to the Smile. This should be just `smile` - or `stretch` for a Stretch."
+Password:
+  description: "This is the password (i.e. Smile ID) printed on the sticker on the back of your Smile (i.e. Adam, Smile-T, or P1) and should be 8 characters long."
+{% endconfiguration_basic %}
+
+### Further configuration
+
+For a thermostat, the active schedule can be deactivated or reactivated via the climate card. Please note, that when no schedule is active, one must first be activated in the Plugwise App. Once that has been done, the Plugwise Integration can manage future operations.
+
+Auto means the schedule is active, and Heat means it's not active. The active thermostat schedule can be changed via the connected thermostat select entity. Please note that only schedules with two or more schedule points will be shown as select options.
 
 ## Entities
 
@@ -73,18 +88,6 @@ This integration follows standard integration removal. No extra steps are requir
 {% include integrations/remove_device_service.md %}
 
 This will also remove all connected Adam devices (such as Anna, Tom or Lisa) or connected Adam/Stretch plugs.
-
-## Configuration
-
-The Plugwise Smile(s) present in your network will be automatically detected via Zeroconf discovery and will be shown on the Integrations-page. To set up an integration, click the "CONFIGURATION" button on the discovered integration and you will be presented with a dialog requesting your Smile password. After you click submit, you will have the opportunity to select the area(s) where individual Smile appliances are located. The username `smile` is shown as a default, when configuring your Stretch change this to `stretch` accordingly.
-
-Repeat the above procedure for each Smile gateway (i.e., if you have an Adam setup and a P1 DSMR you'll have to add two integrations).
-
-Please note: when you have an Anna and an Adam, make sure to only configure the Adam integration. You can press the "IGNORE" button on the Anna integration to remove this integration. In case you need to rediscover the Anna integration, make sure to click the "STOP IGNORING" button on the Plugwise integration first, available via "show ignored integrations".
-
-For a thermostat, the active schedule can be deactivated or reactivated via the climate card. Please note, that when no schedule is active, one must first be activated in the Plugwise App. Once that has been done the Plugwise Integration can manage future operations.
-
-Auto means the schedule is active, Heat means it's not active. The active thermostat schedule can be changed via the connected thermostat select-entity. Please note: that only schedules that have two or more schedule points will be shown as select options.
 
 ### Actions
 
@@ -263,3 +266,74 @@ Stretch (power switches):
 
  - v3.x
  - v2.x
+
+## Troubleshooting
+
+### Accessing the local device
+
+If you need to configure the gateway directly, without using the Plugwise App, you can find the link to your device by:
+
+1. Go to {% my integrations title="**Settings** > **Devices & services**" %}, and select your integration.
+2. If you have more than one Plugwise gateway, select the one to configure.
+3. Select the gateway device, this should be called 'Adam', 'Stretch' or contain 'Smile' in its name.
+4. On the integration entry, choose to open the configuration URL left of the {% icon "mdi:dots-vertical" %} icon.
+5. A new window/tab will open, enter 'smile' (or 'stretch') as the username and the ID, from the sticker on the back, as the password.
+6. Consult the manual or click the 'search' button on the [Plugwise Support](https://plugwise.com/support/) page for interactive help.
+
+### Adjusting the update interval
+
+Please note that the [default intervals](#data-updates) are considered best practice and according to how Plugwise normally updates their data. Updating too frequently may induce considerable load on your gateway(s) resulting in unexpected results or missing data.
+
+{% include common-tasks/define_custom_polling.md %}
+
+### Diagnostic data
+
+If you need to create an issue to report a bug or want to inspect diagnostic data, use the below method to retrieve diagnostics:
+
+1. Go to {% my integrations title="**Settings** > **Devices & services**" %}, and select your integration.
+2. If you have more than one Plugwise gateway, select the gateway that is experiencing issues.
+3. Select the gateway device, this should be called 'Adam', 'Stretch' or contain 'Smile' in its name.
+4. On the integration entry, select the {% icon "mdi:dots-vertical" %}.
+   - Then, select **Download diagnostics** and a JSON file will be downloaded.
+5. You can inspect the downloaded file or, when requested, upload it to your issue report.
+
+### Rebooting your gateway
+
+For each gateway, there will be a reboot button available in your integration.
+
+1. Go to {% my integrations title="**Settings** > **Devices & services**" %}, and select your integration.
+2. If you have more than one Plugwise Smile, select the gateway that is experiencing issues.
+3. Select the gateway device, this should be called 'Adam', 'Stretch' or contain 'Smile' in its name.
+4. On the integration entry, look for the 'Reboot' button to press in the **Configuration** section.
+
+## Known limitations
+
+### Schedule configuration and pre-requisites
+
+Creation, modification or deleting of climate schedules is not supported through this integration. We recommend using the Plugwise App or visit the local device to configure schedules. See [accessing the local device](#accessing-the-local-device) above on how to access the local device from Home Assistant.
+
+To display your schedule as a valid `select` option for this integration, ensure that the schedule has a minimal of two schedule points.
+
+### Anna connected to Adam
+
+If you are using your Anna as part of your Adam zone control system, it becomes a zone thermostat, and cannot be configured as a smart thermostat. The integration will not discover your Anna or allow manual configuration.
+
+### Anna with Elga
+
+The cooling mode can only be toggled via a **physical switch** on the device (not through a toggle in the Plugwise App or using Home Assistant).
+
+The change in cooling mode should be detected by Home Assistant. If not, please try to **reload** the Plugwise integration as indicated below and report your findings.
+
+1. Create an issue including your [diagnostic data](#diagnostic-data).
+2. Go to {% my integrations title="**Settings** > **Devices & services**" %}, and select your integration.
+3. On the "**Hubs**" page, use the {% icon "mdi:dots-vertical" %} icon next to your Anna and choose "**Reload**".
+
+### Vacation preset
+
+The `vacation` preset is only available on an Anna. Adam has a vacation-mode (called Action in the Plugwise App) that disables the active schedule and sets the vacation-preset for all zones.
+
+Also, there's a pause-mode that disables the active schedule and sets the away-preset for all zones.
+
+### Idling climate actions
+
+You can only stop climate actions on an Adam, see [turn on / turn off](#turn-on--turn-off). An alternative could be to adjust your [preset mode](#set-preset-mode) to `no_frost` to stop any heating actions.
