@@ -21,7 +21,7 @@ ha_integration_type: integration
 
 The Squeezebox integration allows you to control music players from the [Lyrion Music Server](https://lyrion.org/) (LMS) ecosystem.  Lyrion Music Server was formerly known as [Logitech Media Server](https://en.wikipedia.org/wiki/Squeezebox_%28network_music_player%29).
 
-This integration provides both media players connected to the server and supporting binary sensors for the server status.
+This integration connects to an existing <abbr title="Lyrion Music Server">LMS</abbr> server and provides both media players and sensors for monitoring server status.
 
 The Squeezebox music player ecosystem, which can be controlled through this integration, includes hardware audio players from Logitech, including [Squeezebox 3rd Generation, Squeezebox Boom, Squeezebox Receiver, Transporter, Squeezebox2, Squeezebox and SLIMP3](https://lms-community.github.io/players-and-controllers/hardware-comparison/), and many software emulators like [Squeezelite, SqueezeSlave, SoftSqueeze and SqueezePlay](https://sourceforge.net/projects/lmsclients/files/).
 
@@ -95,6 +95,50 @@ For example, to play an album from your collection, create an IFTTT applet like 
 `{ "entity_id": "media_player.squeezebox_radio", "command": "playlist", "parameters": ["loadtracks", "album.titlesearch={{TextField}}"] }`
 
 This can work with title search and basically any thing. The same wouldn't have worked by calling directly Squeezebox server as IFTTT cannot escape the text field.
+
+When specifying additional parameters in the Visual Editor, each parameter must be preceded by a hyphen and a space to correctly populate the array:
+
+For example, to create an automation to mute playback, use the command `mixer` and the parameter `muting`:
+
+| Row | Parameter | Description |
+| --- | --------  | ----------- |
+|  1  | - muting  | Toggle muting on / off |
+|  2  |           |             |
+
+resulting in the YAML:
+
+```yaml
+# Toggle the muting state of the specified player
+action: squeezebox.call_method
+metadata: {}
+data:
+  command: mixer
+  parameters:
+    - muting
+```
+
+Where a parameter is an increment or decrement, it is necessary to place the value in double quotes.
+
+For example, to increase the playback volume, use the command `mixer` and the parameters `volume` and the amount to increment:
+
+| Row | Parameter | Description |
+| --- | --------  | ----------- |
+|  1  | - volume  | Parameter to change |
+|  2  | - "+5"    | Increment volume by 5 percent |
+
+resulting in the YAML:
+
+```yaml
+# Increment the playback volume of the specified player by five percent
+action: squeezebox.call_method
+metadata: {}
+data:
+  command: mixer
+  parameters:
+    - volume
+    - "+5"
+```
+
 
 ### Action `call_query`
 

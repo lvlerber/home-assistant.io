@@ -22,6 +22,7 @@ ha_codeowners:
 related:
   - docs: /docs/configuration/
     title: Configuration file
+ha_quality_scale: legacy
 ---
 
 The **Command line** {% term integration %} offers functionality that issues specific commands to get data or to control a device.
@@ -289,6 +290,10 @@ command_line:
           type: integer
           default: 30
 {% endconfiguration %}
+
+{% note %}
+For sensors, while `value_template` is optional, if you set `json_attributes` because the output is a JSON, it is suggested to provide a template in the `value_template` field to provide a state to the sensor or the state will always be `unknown`. See [example](#usage-of-json-attributes-in-command-output) below.
+{% endnote %}
 
 ## Troubleshooting
 
