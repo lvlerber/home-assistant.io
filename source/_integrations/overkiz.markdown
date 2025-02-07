@@ -22,11 +22,6 @@ ha_config_flow: true
 ha_iot_class: Local Polling
 ha_codeowners:
   - '@imicknl'
-  - '@vlebourl'
-  - '@tetienne'
-  - '@nyroDev'
-  - '@tronix117'
-  - '@alexfp14'
 ha_domain: overkiz
 ha_dhcp: true
 ha_zeroconf: true
@@ -136,6 +131,12 @@ cover:
 ```
 
 ### Overkiz API limits
+
+**Device state changes are not broadcasted for all devices**
+
+Some Overkiz devices do not broadcast status changes. To update their status, the vendor's app (for example, Somfy TaHoma) requests a status update when opened. The app then broadcasts the states via events that the Overkiz integration also listens to. The Overkiz integration cannot replicate this behavior, as it does not know when you access the Home Assistant dashboard or run automations.
+
+As a result, the state of some Overkiz devices in Home Assistant may not always be up-to-date.
 
 **Server busy, please try again later. (Too many executions)**
 
